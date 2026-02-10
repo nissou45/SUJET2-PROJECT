@@ -1,0 +1,48 @@
+import { Box, Flex, Text, Heading, Link, Image } from "@chakra-ui/react"
+
+import  InstaIcon  from '../assets/imgs/instaLogo.png'
+import FbLogo from '../assets/imgs/fbLogo.png'
+import XLogo from '../assets/imgs/xLogo.png'
+
+import SignInForm from '../components/SignInForm'
+
+export type ILoginProps = unknown
+
+const Login: React.FC<ILoginProps> = () => {
+    return(
+        <Flex justifyContent={"center"} alignItems={"center"} gap={"100px"}
+        color={"white"}>
+            <Flex id="links"
+            flexDir={"column"} justifyContent={"center"} alignItems={"center"} gap={"20px"}
+            h={"500px"} w={"760px"}>
+                <Box>
+                    <Heading fontSize={"64px"} fontWeight={"700"}>Welcome back</Heading>
+                </Box>
+                <Box mt={"20px"}>
+                    <Text fontSize={"32px"}>Or continue with</Text>
+                </Box>
+                <Flex gap={10}>
+                    <Link href="https://www.instagram.com/" 
+                    bg={"transparent"}>
+                        <Image src={InstaIcon} h={"80px"} w={"80px"}/>
+                    </Link>
+                    <Link href="https://www.facebook.com/" 
+                    mr={"20px"}
+                    bg={"transparent"}>
+                        <Image src={FbLogo} h={"48px"} w={"48px"}/>
+                    </Link>
+                    <Link href="https://x.com/" 
+                    mr={"20px"}
+                    bg={"transparent"}>
+                        <Image src={XLogo} h={"48px"} w={"48px"}/>
+                    </Link>
+                </Flex>
+            </Flex>
+            <Box>
+                <SignInForm />
+            </Box>
+        </Flex>
+    )
+}
+
+export default Login
