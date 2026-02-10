@@ -6,6 +6,7 @@ const db = require("../db");
 const router = express.Router();
 
 const SECRET = process.env.JWT_SECRET;
+console.log("JWT SECRET =", process.env.JWT_SECRET);
 
 console.log("🔥 USERS ROUTE CHARGÉE");
 
