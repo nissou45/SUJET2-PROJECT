@@ -22,7 +22,7 @@ const SignInForm: React.FC<ISignInFormProps> = () => {
                 </Text>
                 <form action={"/home"} method="POST">
                     <Stack gap={12}>
-                            <Input 
+                            <Input type="email"
                             h={"100px"} w={"690px"}
                             color={"black"} fontSize={"32px"}
                             bg={"#D9D9D9"}
@@ -32,7 +32,7 @@ const SignInForm: React.FC<ISignInFormProps> = () => {
                                 textAlign: "center",
                                 color: "black"
                             }}/>
-                            <Input 
+                            <Input type="password"
                             h={"100px"} w={"690px"}
                             color={"black"} fontSize={"32px"}
                             bg={"#D9D9D9"}
