@@ -1,8 +1,17 @@
 import { Flex, Heading, Input, Link, Stack, Text } from "@chakra-ui/react"
+import { useNavigate } from "react-router-dom"
 
 export type ISignInFormProps = unknown
 
 const SignInForm: React.FC<ISignInFormProps> = () => {
+    const navigate = useNavigate()
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
+
+        navigate("/home")
+    }
+
     return (
         <Flex flexDir={"column"} justifyContent={"start"} alignItems={"center"}
         h={"610px"} w={"900px"}
@@ -20,7 +29,7 @@ const SignInForm: React.FC<ISignInFormProps> = () => {
                         Sign up
                     </Link>
                 </Text>
-                <form action={"/home"} method="POST">
+                <form onSubmit={handleSubmit}>
                     <Stack gap={12}>
                             <Input type="email"
                             h={"100px"} w={"690px"}
