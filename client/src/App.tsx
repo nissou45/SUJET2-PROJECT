@@ -15,12 +15,19 @@ function App() {
   const pathSegment = location.pathname.split('/').filter(segment => segment.length > 0)
   const onLoginOrRegister = pathSegment.length === 0 || pathSegment[0] === "register"
 
-  if (onLoginOrRegister) {
+  
     return (
       <Flex flexDir={"column"} justifyContent={"center"}
       backgroundImage={`url(${loginBg})`} backgroundRepeat={"no-repeat"} backgroundPosition={"center"} backgroundSize={"cover"} h={"100vh"}>
+        {!onLoginOrRegister && (
+        <Box id='header' w={"100%"}>
+          <Header />
+        </Box>
+        )}
+
         <Box id='App-contents'>
           <Routes>
+            
             <Route path='/' element={<Login />}/>
 
             <Route path='/register' element={<Register />}/>
@@ -34,28 +41,6 @@ function App() {
         </Box>
     </Flex>
     )
-  } else {
-    return (
-    <Box
-    backgroundImage={`url(${loginBg})`} backgroundRepeat={"no-repeat"} backgroundPosition={"center"} backgroundSize={"cover"} h={"100vh"}>
-      <Box id='header'>
-        <Header />
-      </Box>
-      <Box id='App-contents'>
-        <Routes>
-          <Route path='/' element={<Login />}/>
-  
-          <Route path='/home' element={<HomePage/>}/>
-        </Routes>
-      </Box>
-      <Box id='footer'
-      pos={"fixed"} bottom={"0"} pb={"20px"} w={"100%"}>
-        <Footer />
-      </Box>
-    </Box>
-  )
-  }
-
 }
-
+  
 export default App
