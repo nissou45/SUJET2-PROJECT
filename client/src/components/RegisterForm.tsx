@@ -37,7 +37,11 @@ const RegisterForm: React.FC<IRegisterFormProps> = () => {
             } catch (err) {
                 console.error("FETCH ERROR", err);
             }
-        } else alert("Vos mots de passes ne corresspondent pas")
+        } else {
+            alert("Vos mots de passes ne corresspondent pas")
+            setPassword('')
+            setVerifPassword('')
+        }
     }
 
     return (
