@@ -1,17 +1,55 @@
 import { Button, Flex, Input, Stack } from "@chakra-ui/react"
+import { useState } from "react"
 
 export type IRegisterFormProps = unknown
 
 const RegisterForm: React.FC<IRegisterFormProps> = () => {
+    const [nom, setNom] = useState<string>("")
+    const [email, setEmail] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
+    const [verifPassword, setVerifPassword] = useState<string>("")
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        if (password === verifPassword) {
+            try {
+                const res: Response = await fetch("http://localhost:3000/users/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        nom,
+                        email,
+                        password
+                    })
+                })
+    
+                const data = await res.json()
+                
+                if (res.ok) {
+                    localStorage.setItem("token", data.token)
+                    window.location.href = "/home"
+                } else {
+                    alert(data.message)
+                }
+            } catch (err) {
+                console.error("FETCH ERROR", err);
+            }
+        } else alert("Vos mots de passes ne corresspondent pas")
+    }
+
     return (
         <Flex justifyContent={"center"} alignItems={"center"}
         h={"700px"} w={"850px"}
         textAlign={"center"}
         bg={"#909E9660"}
         borderRadius={"20px"}>            
-            <form action={"/home"} method="POST">
+            <form onSubmit={handleSubmit}>
                 <Stack gap={10}>
-                    <Input 
+                    <Input type="text" value={nom}
+                    onChange={(e) => setNom(e.target.value)}
                     h={"100px"} w={"690px"}
                     color={"black"} fontSize={"32px"}
                     bg={"#D9D9D9"}
@@ -21,7 +59,8 @@ const RegisterForm: React.FC<IRegisterFormProps> = () => {
                         textAlign: "center",
                         color: "black"
                     }}/>
-                    <Input 
+                    <Input type="email" value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     h={"100px"} w={"690px"}
                     color={"black"} fontSize={"32px"}
                     bg={"#D9D9D9"}
@@ -31,7 +70,8 @@ const RegisterForm: React.FC<IRegisterFormProps> = () => {
                         textAlign: "center",
                         color: "black"
                     }}/>
-                    <Input 
+                    <Input type="password" value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     h={"100px"} w={"690px"}
                     color={"black"} fontSize={"32px"}
                     bg={"#D9D9D9"}
@@ -41,7 +81,8 @@ const RegisterForm: React.FC<IRegisterFormProps> = () => {
                         textAlign: "center",
                         color: "black"
                     }}/>
-                    <Input 
+                    <Input type="password" value={verifPassword}
+                    onChange={(e) => setVerifPassword(e.target.value)}
                     h={"100px"} w={"690px"}
                     color={"black"} fontSize={"32px"}
                     bg={"#D9D9D9"}

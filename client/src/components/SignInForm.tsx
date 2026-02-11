@@ -1,18 +1,31 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Flex, Heading, Input, Link, Stack, Text } from "@chakra-ui/react";
 
-const SignInForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export interface IData {
+  nom: string,
+  email: string,
+  password_hash: string,
+  vault_salt: string,
+  role: string,
+  is_verified: boolean,
+  verify_token: string,
+  reset_token: string,
+  create_at: Date,
+  update_at: Date
+}
 
-  const handleSubmit = async (e: React.FormEvent) => {
+const SignInForm: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     console.log("EMAIL =", email);
     console.log("PASSWORD =", password);
 
     try {
-      const res = await fetch("http://localhost:3000/users/login", {
+      const res: Response = await fetch("http://localhost:3000/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,7 +42,7 @@ const SignInForm = () => {
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
-        globalThis.location.href = "/home";
+        window.location.href = "/home";
       } else {
         alert(data.message);
       }

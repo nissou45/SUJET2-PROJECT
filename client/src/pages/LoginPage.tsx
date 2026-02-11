@@ -6,9 +6,7 @@ import XLogo from '../assets/imgs/xLogo.png'
 
 import SignInForm from '../components/SignInForm'
 
-export type ILoginProps = unknown
-
-const Login: React.FC<ILoginProps> = () => {
+const Login: React.FC = () => {
     return(
         <Flex justifyContent={"center"} alignItems={"center"} gap={"100px"}
         color={"white"}>

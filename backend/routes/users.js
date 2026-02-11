@@ -2,10 +2,12 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../db");
+require("dotenv").config();
 
 const router = express.Router();
 
 const SECRET = process.env.JWT_SECRET;
+console.log("JWT SECRET: ", SECRET);
 
 console.log("🔥 USERS ROUTE CHARGÉE");
 
