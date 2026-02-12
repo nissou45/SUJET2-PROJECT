@@ -5,9 +5,7 @@ const db = require("../db");
 require("dotenv").config();
 
 const router = express.Router();
-
 const SECRET = process.env.JWT_SECRET;
-console.log("JWT SECRET: ", SECRET);
 
 console.log("🔥 USERS ROUTE CHARGÉE");
 
@@ -15,20 +13,34 @@ console.log("🔥 USERS ROUTE CHARGÉE");
 router.post("/register", async (req, res) => {
   const { nom, email, password } = req.body;
 
-  const hash = await bcrypt.hash(password, 10);
+  if (!nom || !email || !password) {
+    return res.status(400).json({ message: "Champs manquants" });
+  }
 
   db.query(
-    "INSERT INTO users (nom, email, password_hash) VALUES (?, ?, ?)",
-    [nom, email, hash],
-    (err) => {
-      if (err) return res.status(500).json(err);
+    "SELECT id FROM users WHERE email = ?",
+    [email],
+    async (err, rows) => {
+      if (rows.length > 0) {
+        return res.status(400).json({ message: "Email déjà utilisé" });
+      }
 
-      res.json({ ok: true });
+      const hash = await bcrypt.hash(password, 10);
+
+      db.query(
+        "INSERT INTO users (nom, email, password_hash) VALUES (?, ?, ?)",
+        [nom, email, hash],
+        (err) => {
+          if (err) return res.status(500).json(err);
+
+          res.json({ message: "Utilisateur créé" });
+        },
+      );
     },
   );
 });
 
-// LOGIN + JWT
+// LOGIN
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -53,12 +65,17 @@ router.post("/login", async (req, res) => {
       res.json({
         message: "Login OK",
         token,
+        user: {
+          id: user.id,
+          nom: user.nom,
+          email: user.email,
+        },
       });
     },
   );
 });
 
-// MIDDLEWARE JWT
+// JWT middleware
 function auth(req, res, next) {
   const header = req.headers.authorization;
 
